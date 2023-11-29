@@ -31,7 +31,10 @@ def options():
         print("You are not logged in ")
         print(" ")
         options()
-
+    else:
+         print("That is an invalid option. Select again.")
+         print(" ")
+         options()
 
 def menu():
     print("Main menu ")
