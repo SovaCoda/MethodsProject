@@ -81,7 +81,6 @@ def menu():
             
         
     elif x == 4:
-        #viewCart()
         print("1. Go Back")
         print("2. View Cart")
         print("3. Add Items to Cart")
