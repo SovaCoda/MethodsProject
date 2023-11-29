@@ -27,7 +27,6 @@ class User:
         # Displays all the appropriate account information to the currently logged in user.
         if self.logged_in:
             print(f"Account Information for User ID {self.user_id}:")
-            print("Name: John Doe\nEmail: john.doe@example.com")
         else:
             print("Please log in to view account information.")
 
