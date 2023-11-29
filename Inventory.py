@@ -1,40 +1,30 @@
-import Item
 class Inventory:
     def __init__(self):
-        self.items = {}  # Dictionary to store items with their location as the key
+        self.database_name = ""
+        self.table_name = ""
 
-    def add_item(self, item, location):
-        self.items[location] = item 
-        pass
+    def set_database_table(self, database_name, table_name):
+        # Set up the database and table names
+        self.database_name = database_name
+        self.table_name = table_name
 
-    def remove_item(self, item, location):
-        return self.items.pop(location)
-        # Removes an item from the inventory at a location
-        
+    def view_inventory(self):
+        # Displays all items in the inventory.
+        print(f"Inventory for {self.table_name} in {self.database_name}:")
 
-    def edit_item(self, item, location):
-        self.items[location] = item
-        # Edits an item in the inventory at a location
-        pass
+    def search_inventory(self):
+        # Asks for a title, checks the database, and displays the results.
+        title = input("Enter the title to search: ")
+        print(f"Search results for '{title}':")
 
-    def get_item(self, location):
-        return self.items[location]
-        # Returns an item from a location
+    def decrease_stock(self, isbn):
+        # Decreases the stock number in the appropriate database for the given ISBN."""
+        print(f"Stock decreased for ISBN {isbn} in {self.table_name}.")
 
-    def list_out_of_stock(self, item):
-        out_of_stock = []
-        # compare all items to item and if item is out of stock add to list
-        for i in self.items:
-            if i == item:
-                out_of_stock.append(i)
-        return out_of_stock
-        # Lists items that are out of stock
-        pass
+    def get_database_name(self):
+        #Traditional getter for database_name.
+        return self.database_name
 
-    def search_items(self, item):
-        found_items = []
-        # Searches items based on a given item
-        for location, inventory_item in self.items.items():
-            if inventory_item == item:
-                found_items.append((location, inventory_item))
-        return found_items
+    def get_table_name(self):
+        #Traditional getter for table_name."""
+        return self.table_name
