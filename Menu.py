@@ -78,6 +78,7 @@ def menu():
                 print("Looking through inventory")
                 print(" ")
                 menu()
+            
         
     elif x == 4:
         #viewCart()
@@ -116,4 +117,4 @@ def menu():
             print("Checking the user out")
             print(" ")
             #decreaseStock(ISBN)
-
+        
