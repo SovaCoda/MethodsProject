@@ -1,3 +1,6 @@
+from User import User 
+cur_user = User()
+cur_user.set_database_table(r".\commercedatabase.db", "User")
 def options():
     print("Choose an option: ")
     print("1. Login ")
@@ -9,32 +12,21 @@ def options():
     
     g = int(input())
     if g == 1:
-        print("Enter your user ID ")
-        c = str(input())
-        for c in range(len(l)):
-            print(" ")
-            menu()
-            #else:
-            #    print("No UserID found")
-            #    print(" ")
-            #    options()
+        cur_user.login()
+        main_menu()
         
 
     if g == 2:
-        print("Enter a user ID ")
-        c = str(input())
-        l = l.append(c)
-        print(" ")
-        options()
+        cur_user.create_account()
+        main_menu()
 
     if g ==3:
-        print("You are not logged in ")
-        print(" ")
-        options()
+        cur_user.logout()
+        main_menu()
     else:
          print("That is an invalid option. Select again.")
          print(" ")
-         options()
+         main_menu()
 
 def menu():
     print("Main menu ")
@@ -50,11 +42,12 @@ def menu():
         x = int(input())
         print(" ")
     if x==1:
-            options()
+        cur_user.logout()
+        main_menu()
     elif x ==2:
-            print("User id information")
-            print(" ")
-            menu()
+        cur_user.view_account_information()
+        print(" ")
+        main_menu()
     elif x == 3:
             print("Select an option ")
             print("1. Go back ")
@@ -67,17 +60,17 @@ def menu():
                 print(" ")
                 i = int(input())
             if i==1:
-                menu()
+                main_menu()
             elif i==2:
                 #viewInventory()
                 print("Inventory Contents ")
                 print(" ")
-                menu()
+                main_menu()
             elif i==3:
                 #searchInventory()    
                 print("Looking through inventory")
                 print(" ")
-                menu()
+                main_menu()
             
         
     elif x == 4:
@@ -95,26 +88,32 @@ def menu():
             print(" ")
             z = int(input())
         if z ==1:
-            menu()
+            main_menu()
             print(" ")
         elif z==2:
             #viewCart()
             print("contents of my cart")
             print(" ")
-            menu()
+            main_menu()
         elif z ==3:
             #addToCart()
             print(" Adding items to my cart")
             print(" ")
-            menu()
+            main_menu()
         elif z == 4:
             #removeFromCart()
             print("Removing from cart ")
             print(" ")
-            menu()
+            main_menu()
         elif z == 5:
             #checkout(User ID)        
             print("Checking the user out")
             print(" ")
             #decreaseStock(ISBN)
         
+def main_menu():
+    print(cur_user.logged_in)
+    if(cur_user.logged_in):
+        menu()
+    else:
+        options()
