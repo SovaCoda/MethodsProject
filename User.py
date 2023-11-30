@@ -22,7 +22,6 @@ class User:
             cur.execute(f"SELECT * FROM {self.table_name} WHERE Email = ? AND Password = ?", (email, password))
             
             result = cur.fetchone()
-            print(result)
             if result:
                 self.logged_in = True
                 self.user_id = result[0]

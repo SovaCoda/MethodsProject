@@ -55,8 +55,8 @@ sql_create_cart_table = """ CREATE TABLE Cart (
                             );
                         """
 if __name__ == '__main__':
-    conn = create_connection(database)
-    create_table(conn, sql_create_inventory_table)
-    create_table(conn, sql_create_user_table)
-    create_table(conn, sql_create_cart_table)
+    #conn = create_connection(database)
+    #create_table(conn, sql_create_inventory_table)
+    #create_table(conn, sql_create_user_table)
+    #create_table(conn, sql_create_cart_table)
     main_menu()

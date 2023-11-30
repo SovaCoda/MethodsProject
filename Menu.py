@@ -1,4 +1,10 @@
 from User import User 
+from Inventory import Inventory
+from ShoppingCart import ShoppingCart
+cur_inventory = Inventory()
+cur_inventory.set_database_table(r".\commercedatabase.db", "Inventory")
+cur_cart = ShoppingCart()
+cur_cart.set_database_table(r".\commercedatabase.db", "Cart")
 cur_user = User()
 cur_user.set_database_table(r".\commercedatabase.db", "User")
 def options():
@@ -63,26 +69,25 @@ def menu():
                 main_menu()
             elif i==2:
                 #viewInventory()
-                print("Inventory Contents ")
+                cur_inventory.view_inventory(cur_user.get_user_id())
                 print(" ")
                 main_menu()
             elif i==3:
                 #searchInventory()    
-                print("Looking through inventory")
                 print(" ")
+                cur_inventory.search_inventory()
                 main_menu()
             
         
     elif x == 4:
         print("1. Go Back")
         print("2. View Cart")
-        print("3. Add Items to Cart")
-        print("4. Remove an Item from Cart")
-        print("5. Check Out")
+        print("3. Remove an Item from Cart")
+        print("4. Check Out")
         print(" ")
             
         z = int(input())
-        while z!= 1 and z!= 2 and z!= 3 and z!= 4 and z!= 5:
+        while z!= 1 and z!= 2 and z!= 3 and z!= 4:
             print("That is an invalid option. Select again.")
             print(" ")
             z = int(input())
@@ -91,27 +96,21 @@ def menu():
             print(" ")
         elif z==2:
             #viewCart()
-            print("contents of my cart")
+            cur_cart.view_cart(cur_user.get_user_id())
             print(" ")
             main_menu()
-        elif z ==3:
-            #addToCart()
-            print(" Adding items to my cart")
+        elif z == 3:
+            #removeFromCart()
+            cur_cart.remove_from_cart(input("Enter Title: "), cur_user.get_user_id())
             print(" ")
             main_menu()
         elif z == 4:
-            #removeFromCart()
-            print("Removing from cart ")
-            print(" ")
-            main_menu()
-        elif z == 5:
             #checkout(User ID)        
-            print("Checking the user out")
+            cur_cart.checkout(cur_user.get_user_id())
+            main_menu()
             print(" ")
-            #decreaseStock(ISBN)
         
 def main_menu():
-    print(cur_user.logged_in)
     if(cur_user.logged_in):
         menu()
     else:

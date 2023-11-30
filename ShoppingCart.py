@@ -1,20 +1,28 @@
 from db import create_connection
 
 class ShoppingCart:
-    def __init__(self, database_name, table_name):
-        self.database_name = database_name
-        self.table_name = table_name
+    def __init__(self):
+        self.database_name = ""
+        self.table_name = ""
 
     def set_database_table(self, database_name, table_name):
         self.database_name = database_name
         self.table_name = table_name
 
-    def view_cart(self):
+    def view_cart(self, userID):
         try:
             conn = create_connection(self.database_name)
             cur = conn.cursor()
-            cur.execute(f"SELECT * FROM {self.table_name} WHERE UserID = ?", (self.user_id,))
-            print(cur.fetchall())
+            cur.execute(f"SELECT ISBN, userID, quantity FROM {self.table_name} WHERE UserID = ?", (userID,))
+            cart_items = cur.fetchall()
+            for item in cart_items:
+                isbn = item[0]
+                quantity = item[2]
+                cur.execute("SELECT Title FROM Inventory WHERE ISBN = ?", (isbn,))
+                result = cur.fetchone()
+                if result:
+                    title = result[0]
+                    print(f"Title: {title}, Quantity: {quantity}")
         except Exception as e:
             print(f"Error occurred while viewing cart: {str(e)}")
         finally:
@@ -41,11 +49,11 @@ class ShoppingCart:
             if conn:
                 conn.close()
 
-    def checkout(self):
+    def checkout(self, userID):
         try:
             conn = create_connection(self.database_name)
             cur = conn.cursor()
-            cur.execute(f"SELECT ISBN, Quantity FROM {self.table_name}")
+            cur.execute(f"SELECT ISBN, Quantity FROM {self.table_name} WHERE UserID = ?", (userID,))
             cart_items = cur.fetchall()
             for item in cart_items:
                 isbn = item[0]
@@ -60,13 +68,19 @@ class ShoppingCart:
             if conn:
                 conn.close()
 
-    def remove_from_cart(self, isbn, userID):
+    def remove_from_cart(self, title, userID):
         try:
             conn = create_connection(self.database_name)
             cur = conn.cursor()
-            cur.execute(f"DELETE FROM {self.table_name} WHERE ISBN = ? AND UserID = ?", (isbn, userID))
-            conn.commit()
-            print("Item removed from cart successfully.")
+            cur.execute(f"SELECT ISBN FROM Inventory WHERE Title = ?", (title,))
+            result = cur.fetchone()
+            if result:
+                isbn = result[0]
+                cur.execute(f"DELETE FROM {self.table_name} WHERE ISBN = ? AND UserID = ?", (isbn, userID))
+                conn.commit()
+                print("Item removed from cart successfully.")
+            else:
+                print("Item not found in inventory.")
         except Exception as e:
             print(f"Error occurred while removing item from cart: {str(e)}")
         finally:
